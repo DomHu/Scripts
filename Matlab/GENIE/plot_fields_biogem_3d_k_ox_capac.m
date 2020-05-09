@@ -3,6 +3,10 @@ function [Total_Ox_capac, OUTPUT] = plot_fields_biogem_3d_k_ox_capac(PEXP1,PEXP2
 %
 % DH: calculates the combined oxidizing capacity of a specific depth-range
 % of the ocean (i.e. O2 - 2 x H2S)
+% make sure to set ocean depth to the range you want it in
+% plot_field_SETTINGS.m:
+% plot_D_min = 70;         % [   0]  OPTIONAL MIN PLOTTING LIMIT (DEPTH, m)
+% plot_D_max = 600;         % [   0]  OPTIONAL MAX PLOTTING LIMIT (DEPTH, m)
 %
 %   *******************************************************************   %
 %   *** biogem k-SECTION (LON-LAT) DIFFERENCE PLOTTING ****************   %
