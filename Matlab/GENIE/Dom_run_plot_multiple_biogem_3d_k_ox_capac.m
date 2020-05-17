@@ -30,7 +30,7 @@ function Dom_run_plot_multiple_biogem_3d_k_ox_capac(PNAME_CONTOUR, TEXTFIG, FOLD
 % Dom_run_plot_multiple_biogem_3d_k('ocn_H2S',19999.5,15,'',1e-6,0,100,20,'','','0410_Double_exp_H2S_k15', './configs/1_double_exp/')
 
 plot_unadjusted = true;    % plot unadjusted results
-plot_adjusted = false;      % plot adjusted results
+plot_adjusted = true;      % plot adjusted results
 
 
 %% calculate the oxidizing capacity:
@@ -66,6 +66,13 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% plot the contour-plots
+
+% 4 representative cGENIE experiments
+cGENIE = [22.7 1; 28.4 1.5; 30.8 2.0; 33.3 2.0];
+str = {'1','2','3','4'};
+cGENIE_text = cGENIE;
+cGENIE_text(:,2) = cGENIE_text(:,2)+0.07;
+cGENIE_text(end,1)=32.8;
 
 % data end-Permian 1.0 - 3.0 PO4
 PO4 = [1.0:0.5:3.0];
@@ -155,6 +162,8 @@ hold on
             caxis([-22000,-3000])       % adjusted for 4 models for 90 - 175m
             [C,h] = contourf(CO2,PO4,Ox_Capac_matrix_exp1_adjusted,[-22000:3000:-3000]); % adjusted for 4 models 90 - 175m
     end
+plot(cGENIE(:,1), cGENIE(:,2),'d','color','r','markerfacecolor','r','markersize',12)
+text(cGENIE_text(:,1),cGENIE_text(:,2),str,'Color','red','FontSize',20)
 clabel(C,h,'FontSize',16);
 %    clabel(C,h,'LineStyle','--')
 %    clabel(C,h,'FontSize',15,'Color','r')
