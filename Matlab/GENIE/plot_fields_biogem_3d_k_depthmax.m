@@ -1776,10 +1776,11 @@ if ~isempty(overlaydataid)
         zm(find(zm(:,:) == 0)) = NaN;
     end
     % ditto if water column inventory option plus data
-    if ( ~isempty(overlaydataid) && (kplot == 0) )
-        zm = zeros(size(zm(:,:)));
-        zm(find(zm(:,:) == 0)) = NaN;
-    end
+    % DH/Dom: next 3 lines make all grids white
+%     if ( ~isempty(overlaydataid) && (kplot == 0) )
+%         zm = zeros(size(zm(:,:)));
+%         zm(find(zm(:,:) == 0)) = NaN;
+%     end
 end
 %
 % *********************************************************************** %
@@ -1922,6 +1923,10 @@ if (plot_main == 'y'),
         end
     end
     set(gca,'TickDir','out');
+    % Dom: increse font for tick lables
+    ax = gca;
+    ax.FontSize = 16; 
+
 % DH: no title    
 %     if ~isempty(plot_title)
 %         title(plot_title,'FontSize',18);
@@ -2139,7 +2144,8 @@ if (plot_main == 'y'),
         % plot overlay data
         for n = 1:nmax,
             if (data_siteonly == 'n'),
-                scatter(overlaydata(n,1),overlaydata(n,2),4,overlaydata(n,4),overlaydata_shape(n),'Filled','LineWidth',data_sitelineth,'Sizedata',data_size,'MarkerEdgeColor',overlaydata_ecol(n));
+                scatter(overlaydata(n,1),overlaydata(n,2),4,overlaydata(n,4),overlaydata_shape(n),'Filled','LineWidth',data_sitelineth,'Sizedata',data_size,'MarkerEdgeColor',overlaydata_ecol(n),'MarkerFaceColor',overlaydata_fcol(n));
+% DH: with color as value                scatter(overlaydata(n,1),overlaydata(n,2),4,overlaydata(n,4),overlaydata_shape(n),'Filled','LineWidth',data_sitelineth,'Sizedata',data_size,'MarkerEdgeColor',overlaydata_ecol(n));
             else
                 if (overlaydata_fcol(n) == '-'),
                     scatter(overlaydata(n,1),overlaydata(n,2),4,overlaydata_shape(n),'LineWidth',data_sitelineth,'Sizedata',data_size,'MarkerEdgeColor',overlaydata_ecol(n));

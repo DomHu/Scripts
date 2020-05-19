@@ -14,11 +14,11 @@ exps = strcat(names_cell(3:end));
 for i=1:length(exps)
     i
     % plot Maximum value between 80 - 1000m
-    plot_fields_biogem_3d_k_depthmax(strcat(FOLDER,exps{1,i}),'','ocn_H2S','',9999.5,-1,0,'',1e-6,0,200,20,'','','',false, false)
+%    plot_fields_biogem_3d_k_depthmax(strcat(FOLDER,exps{1,i}),'','ocn_H2S','',9999.5,-1,0,'',1e-6,0,200,20,'Observations_WC_Euxini_EndPermian_adjusted_8columns','','',false, false)
     % plot Depth of Maximum value between 80 - 1000m
     plot_fields_biogem_3d_k_depthmax(strcat(FOLDER,exps{1,i}),'','ocn_H2S','',9999.5,-1,0,'',1,10,15,5,'','','',true, false)
     % plot Histogram of data Frq distribution of values between 80 - 1000m
-    plot_fields_biogem_3d_k_depthmax(strcat(FOLDER,exps{1,i}),'','ocn_H2S','',9999.5,-1,0,'',1e-6,0,110,11,'','','',false, true)
+%    plot_fields_biogem_3d_k_depthmax(strcat(FOLDER,exps{1,i}),'','ocn_H2S','',9999.5,-1,0,'',1e-6,0,110,11,'','','',false, true)
 
 end
 
