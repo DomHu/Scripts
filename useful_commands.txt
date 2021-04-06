@@ -1,0 +1,66 @@
+Linux commands
+
+Find/grep files containing a word / paramater name
+grep -r "par_sed_diagen_Corgopt" .
+
+Find Linux Files by Name or Extension
+find /home/username/ -name "*.err"
+
+
+Rename multiple files:
+ACDC - Rock N' Roll Ain't Noise Pollution.xxx 
+ACDC - Rocker.xxx 
+To become:
+AC-DC - Rock N' Roll Ain't Noise Pollution.xxx 
+AC-DC - Rocker.xxx 
+
+rename 's/ACDC/AC-DC/' *.xxx
+
+
+delete row starting with tab and string ‘url’:
+sed '/^\turl/d'  < Huelse_ea_EndPermian_Nature.bib > Huelse_ea_EndPermian_Nature_out.bib
+
+Replacing all occurrences of one string with another in all files in the current directory:
+sed -i -- 's/foo/bar/g' *
+sed -i -- 's/bg_par_bio_remin_sinkingrate_reaction=98.0/bg_par_bio_remin_sinkingrate_reaction=125.0/g' *
+
+	sed -i -- 's/modern PO4/1.2 x modern PO4/g' *
+	
+insert text in file in line 56:
+ sed -i "56i bg_par_bio_remin_sinkingrate_scav = 62.5" 0310_1*
+
+
+AWK
+print specific columns of line that contain a string:
+awk '/POC rain  / {print $1, $2, $4, $8}' seddiag_misc_DATA_GLOBAL.res
+save just the first line of this output into file:
+ awk '/POC rain  / {print $4, $8}' seddiag_misc_DATA_GLOBAL.res | head -n 1 >> out.txt
+
+Copy multiple files from remote to local:
+$ scp your_username@remote.edu:some/remote/directory/\{a,b,c\} ./
+scp igelstachelbart@domino.ucr.edu:cgenie_archive/\{0306_101_01.0CO2_1.00PO4_Tmp_meanbiov98sink_sulfE6.tar.gz,0306_102_02.5CO2_1.00PO4_Tmp_meanbiov98sink_sulfE6.tar.gz\} ./
+scp igelstachelbart@domino.ucr.edu:cgenie_archive/0306_1* ./
+
+Copy multiple files from local to remote:
+$ scp foo.txt bar.txt your_username@remotehost.edu:~
+$ scp {foo,bar}.txt your_username@remotehost.edu:~
+$ scp *.txt your_username@remotehost.edu:~
+scp 10_OM_burial_efficiency_Jan2019.zip igelstachelbart@sprout.ggy.bris.ac.uk:.
+Copy multiple files from remote to remote:
+$ scp your_username@remote1.edu:/some/remote/directory/foobar.txt \
+your_username@remote2.edu:/some/remote/directory/
+Source: http://www.hypexr.org/linux_scp_help.php
+scp igelstachelbart@domino.ucr.edu:cgenie_output/0310_01_config_p0251b.1.0CO2_1.0PO4Fe.SPIN_nosulf_Tmpdep/biogem/{fields_biogem_2d.nc,fields_biogem_3d.nc,biogem_year_19999_500_diag_GLOBAL_AVERAGE.res\} ./0310_01_config_p0251b.1.0CO2_1.0PO4Fe.SPIN_nosulf_Tmpdep/biogem/.
+
+
+Unpack all .tar.gz files in folder:
+for f in *.tar.gz; do tar xf "$f"; done
+
+
+Combine all .ps files of a folder into a single pdf
+gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER -sOutputFile=1903_01_ModernBC.pdf *.ps
+
+Arrange n pdfs in a NxM matrix
+ pdfnup 30*.pdf --nup 4x4 --outfile out_new.pdf
+
+

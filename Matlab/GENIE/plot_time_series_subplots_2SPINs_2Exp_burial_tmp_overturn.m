@@ -1,4 +1,4 @@
-function [] = plot_time_series_subplots_2SPINs_2Exp_burial_tmp_overturn(PEXP_SPIN1, PEXP_SPIN2, PEXP1_OPEN, PEXP2_OPEN, PNAME_SPIN1, PNAME_SPIN2, PNAME_OPEN1, PNAME_OPEN2, FILENAME)
+yfunction [] = plot_time_series_subplots_2SPINs_2Exp_burial_tmp_overturn(PEXP_SPIN1, PEXP_SPIN2, PEXP1_OPEN, PEXP2_OPEN, PNAME_SPIN1, PNAME_SPIN2, PNAME_OPEN1, PNAME_OPEN2, FILENAME)
 % plot time-series
 %clear all;
 

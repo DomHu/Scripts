@@ -1,5 +1,5 @@
 %%%%%%%% Calculate anoxia pourcentage %%%%%%%%
-function[]=calculate_anoxia(PEXP1, PANOXIA)
+function[Globalanox,BWanox,GlobalH2S,BWH2S ]=calculate_anoxia(PEXP1, PANOXIA)
 %clear all;
 % PANOXIA = true to calcuylate anoxia;  FALSE = to calculate Euxinia
 
