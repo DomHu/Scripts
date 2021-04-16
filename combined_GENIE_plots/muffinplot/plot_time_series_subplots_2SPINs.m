@@ -1,5 +1,8 @@
 function [] = plot_time_series_subplots_2SPINs(PEXP_SPIN, PEXP1_OPEN, PNAME_SPIN, PNAME_OPEN1, PNAME_OUT)
 % plot time-series
+% Example call:
+% plot_time_series_subplots_2SPINs('folder_name_SPIN1', 'folder_name_SPIN2', 'Name to plot for SPIN1', 'Name to plot for SPIN2', 'NAME_of_output_file')
+
 %clear all;
 
 % plot mean (true) or total (false)
@@ -96,7 +99,7 @@ REF_CaCO3_burial_exp2(:,2) = (REF_focnsed_CaCO3_exp2(:,2)-REF_fsedocn_Ca_exp2(:,
 % calculate length up experiments
 time_exp1 = REF_misc_opsi_exp1(end,1);
 time_exp2 = REF_misc_opsi_exp2(end,1);
-xaxis_lim = max(time_exp1,time_exp2);
+xaxis_lim = time_exp2; %max(time_exp1,time_exp2);
 
 %% split in three figures:
 if(true)
@@ -114,7 +117,7 @@ if(true)
         REF_atm_tmp_exp2(:,1)+years_SPIN,REF_atm_tmp_exp2(:,2),'r--');
     ylabel({'Mean air'; 'temp (°C)'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
-    ylim([10 20])
+%    ylim([10 20])
     
     % atm. CO2
     subplot(3, 2, 2)
@@ -122,7 +125,7 @@ if(true)
         REF_sed_pCO2_exp2(:,1)+years_SPIN,REF_sed_pCO2_exp2(:,3)*1e+6,'r--');
     ylabel({'pCO2'; '(ppm)'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
-    ylim([0 1200])
+%    ylim([0 1200])
     
     
     % global min overturning (Sv)
@@ -131,7 +134,7 @@ if(true)
         REF_misc_opsi_exp2(:,1)+years_SPIN,REF_misc_opsi_exp2(:,2),'r--');
     ylabel({'global min'; 'overturn (Sv)'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
-    ylim([-50 -40])
+%    ylim([-50 -40])
     
     
     % atm. O2
@@ -140,7 +143,7 @@ if(true)
         REF_sed_pO2_exp2(:,1)+years_SPIN,REF_sed_pO2_exp2(:,3),'r--');
     ylabel({'pO2'; '(atm)'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
-    ylim([0.2 0.22])
+%    ylim([0.2 0.22])
     
     % PO4
     subplot(3,2,5)
@@ -192,7 +195,7 @@ if(true)
     subplot(3, 2, 3)
     plot(REF_focnsed_POC_exp1(:,1),REF_focnsed_POC_exp1(:,2)*12*1e-15,'k', ...
         REF_focnsed_POC_exp2(:,1)+years_SPIN,REF_focnsed_POC_exp2(:,2)*12*1e-15,'r--');
-    ylim([0 8])
+%    ylim([0 8])
     ylabel({'POC deposition'; '(PgC yr^{-1})'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
     
@@ -200,7 +203,7 @@ if(true)
     subplot(3,2, 5)
     plot(REF_POC_burial_exp1(:,1),REF_POC_burial_exp1(:,2),'k', ...
         REF_POC_burial_exp2(:,1)+years_SPIN,REF_POC_burial_exp2(:,2),'r--');
-    ylim([0 1])
+%    ylim([0 1])
     ylabel({'OM burial'; '(PgC yr^{-1})'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
     
@@ -217,7 +220,7 @@ if(true)
     subplot(3,2, 4)
     plot(REF_focnsed_CaCO3_exp1(:,1),REF_focnsed_CaCO3_exp1(:,2)*12*1e-15,'k', ...
         REF_focnsed_CaCO3_exp2(:,1)+years_SPIN,REF_focnsed_CaCO3_exp2(:,2)*12*1e-15,'r--');
-    ylim([0 8])
+%    ylim([0 8])
     ylabel({'CaCO3 deposition'; '(PgC yr^{-1})'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
     
@@ -225,7 +228,7 @@ if(true)
     subplot(3,2, 6)
     plot(REF_CaCO3_burial_exp1(:,1),REF_CaCO3_burial_exp1(:,2),'k', ...
         REF_CaCO3_burial_exp2(:,1)+years_SPIN,REF_CaCO3_burial_exp2(:,2),'r--');
-    ylim([0 1])
+%    ylim([0 1])
     ylabel({'CaCO3 burial'; '(PgC yr^{-1})'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
     

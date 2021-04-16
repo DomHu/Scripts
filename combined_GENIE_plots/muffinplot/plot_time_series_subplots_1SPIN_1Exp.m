@@ -1,15 +1,20 @@
-function [] = plot_time_series_subplots_1SPIN_1Exp(PEXP_SPIN, PEXP1_OPEN, PNAME_SPIN, PNAME_OPEN1)
+function [] = plot_time_series_subplots_1SPIN_1Exp(PEXP_SPIN, PEXP1_OPEN, PNAME_SPIN, PNAME_OPEN1, PNAME_OUT)
 % plot time-series
+% Example call:
+% plot_time_series_subplots_2SPINs('folder_name_SPIN', 'folder_name_Exp1', 'Name to plot for SPIN', 'Name to plot for Exp1', 'NAME_of_output_file')
+% remember to set how long the SPIN is and how much of it yopu want to plot
+
 %clear all;
+% set SPIN experiment years
+years_SPIN = 150000;
+years_SPIN_plot = 150000;
 
 % plot mean (true) or total (false)
 plot_mean = true;
 
-% set SPIN experiment years
-years_SPIN = 100000;
-years_SPIN_plot = 2000;
-% set experiment
 
+
+% set experiment
 exp_SPIN = ['./cgenie_output/' PEXP_SPIN];
 exp_1_OPEN = ['./cgenie_output/' PEXP1_OPEN];
 
@@ -167,9 +172,9 @@ if(true)
     
     
     if(plot_mean)  % mean (mol/kg)
-        print(fig1, '-dpsc2', ['PLOTS/01_' PEXP_SPIN '_1BC_wSPIN.ps']);
+        print(fig1, '-dpsc2', ['PLOTS/01_' PNAME_OUT '_1BC_wSPIN.ps']);
     else
-        print(fig1,'-dpsc2', ['PLOTS/01_' PEXP_SPIN '_Total_1BC_wSPIN.ps']);
+        print(fig1,'-dpsc2', ['PLOTS/01_' PNAME_OUT '_Total_1BC_wSPIN.ps']);
     end
     
     
@@ -222,9 +227,9 @@ if(true)
     
     
     if(plot_mean)  % mean (mol/kg)
-        print(fig2, '-dpsc2', ['PLOTS/02_' PEXP_SPIN '_2Ccycle_wSPIN.ps']);
+        print(fig2, '-dpsc2', ['PLOTS/02_' PNAME_OUT '_2Ccycle_wSPIN.ps']);
     else
-        print(fig2,'-dpsc2', ['PLOTS/02_' PEXP_SPIN '_Total_2Ccyle_wSPIN.ps']);
+        print(fig2,'-dpsc2', ['PLOTS/02_' PNAME_OUT '_Total_2Ccyle_wSPIN.ps']);
     end
     
     
@@ -306,9 +311,9 @@ if(true)
     
     
     if(plot_mean)  % mean (mol/kg)
-        print(fig3, '-dpsc2', ['PLOTS/03_' PEXP_SPIN '_3Biochem_wSPIN.ps']);
+        print(fig3, '-dpsc2', ['PLOTS/03_' PNAME_OUT '_3Biochem_wSPIN.ps']);
     else
-        print(fig3, '-dpsc2', ['PLOTS/03_' PEXP_SPIN '_Total_3Biochem_wSPIN.ps']);
+        print(fig3, '-dpsc2', ['PLOTS/03_' PNAME_OUT '_Total_3Biochem_wSPIN.ps']);
     end
     
 end

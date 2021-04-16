@@ -1,14 +1,20 @@
 %%%%%%%% Calculate anoxia pourcentage %%%%%%%%
-function[Globalanox,BWanox,GlobalH2S,BWH2S ]=calculate_anoxia(PEXP1, PANOXIA)
-%clear all;
+function[Globalanox,BWanox,GlobalH2S,BWH2S ]=calculate_anoxia(PEXP1, PANOXIA, PTIME)
 % PANOXIA = true to calcuylate anoxia;  FALSE = to calculate Euxinia
+% Example call:
+% calculate_anoxia('./cgenie_output/0804_02_fkl_ep21_1C1P1O_allFeedb_forc_atm_Fdet18g_200k', true, 199999.5)
 
 % INITIALIZE PARAMETERS & VARIABLES
 %exp_1 = '../EXAMPLE2.DOM_p0093k.PO4Fe.SPIN_1P2CO2_0205'
 %exp_1 = './cgenie_output/2509_08_p0093k.2P4pCO2_With_OMEN_No_sulf_k2_1e-5_anoxic'
 %exp_1 = ['./cgenie_output/' PEXP1]
+Globalanox = 0.0;
+BWanox = 0.0;
+GlobalH2S = 0.0;
+BWH2S = 0.0;
+
 exp_1 = PEXP1;
-timesliceid_1 = 9999.5;
+timesliceid_1 = PTIME;
 if(PANOXIA)
     dataid_1 = 'ocn_O2';
     dataid_2 = 'ocn_ben_O2';
@@ -253,17 +259,22 @@ data_1(data_1<0)=0;
 oceanid = find(data_1>=0);
 anoxid = find(data_1<=anoxthr & data_1>=0);
 % Dom
+if(PANOXIA)
 Globalanox = sum(data_V(anoxid))/sum(data_V(oceanid))*100
-GlobalH2S = 100- sum(data_V(anoxid))/sum(data_V(oceanid))*100
-
+else
+    GlobalH2S = 100- sum(data_V(anoxid))/sum(data_V(oceanid))*100
+end
 clear anoxid
 data_2(data_2<=-0.9E19 | data_2>= 0.9E36)=NaN;
 data_2(data_2<0)=0;
 %data_2(data_2<0 | data_2>= 0.9E36)=NaN;
 oceanid = find(data_2>=0);
 anoxid = find(data_2<=anoxthr & data_2>=0);
-BWanox = sum(anoxid)/sum(oceanid)*100
+% BWanoxwrong = sum(anoxid)/sum(oceanid)*100
+if(PANOXIA)
+BWanox = size(anoxid,1)/size(oceanid,1)*100 % SX: added
+else
 BWH2S = 100-sum(anoxid)/sum(oceanid)*100
-
+end
 netcdf.close(ncid_1);
 netcdf.close(ncid_2);

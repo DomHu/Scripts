@@ -1,5 +1,8 @@
 function [] = plot_time_series_subplots_1SPIN(PEXP_SPIN, PNAME_SPIN)
 % plot time-series
+% Example call:
+% plot_time_series_subplots_2SPINs('folder_name_SPIN', 'Name to plot for SPIN1', 'NAME_of_output_file')
+
 %clear all;
 
 % plot mean (true) or total (false)
@@ -141,7 +144,7 @@ if(true)
     subplot(3,2, 3)
     plot(REF_POC_burial_exp1(:,1),REF_POC_burial_exp1(:,2),'k--');
     ylabel({'OM burial'; '(PgC yr^{-1})'});
-   	ylim([0 1.0])
+   	ylim([0 1.5])
     
     % focnsed_CaCO3
     subplot(3,2, 4)
