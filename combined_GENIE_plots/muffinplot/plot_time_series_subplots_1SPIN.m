@@ -33,6 +33,8 @@ REF_atm_tmp_exp1 = load(fullfile(exp_SPIN,'/biogem/biogem_series_atm_temp.res'),
 REF_ocn_tmp_exp1 = load(fullfile(exp_SPIN,'/biogem/biogem_series_ocn_temp.res'),'ascii');
 % POC export flux
 REF_fexport_POC_exp1 = load(fullfile(exp_SPIN,'/biogem/biogem_series_fexport_POC.res'),'ascii');
+% PO4 weathering flux
+REF_weather_PO4_exp1 = load(fullfile(exp_SPIN,'/biogem/biogem_series_diag_weather_PO4.res'),'ascii');
 % CaCO3 ocean - sediment
 REF_focnsed_CaCO3_exp1 = load(fullfile(exp_SPIN,'/biogem/biogem_series_focnsed_CaCO3.res'),'ascii');
 % mean CaCO3 wt%
@@ -47,9 +49,15 @@ REF_fsedocn_Ca_exp1 = load(fullfile(exp_SPIN,'/biogem/biogem_series_fsedocn_Ca.r
 REF_POC_burial_exp1 = REF_focnsed_POC_exp1;
 REF_POC_burial_exp1(:,2) = (REF_focnsed_POC_exp1(:,2) - (REF_fsedocn_DIC_exp1(:,2)-REF_fsedocn_Ca_exp1(:,2))).*12.*1e-15;
 
-% mean POC burial of last 4kyrs (mol/yr):
-Mean_POC_burial_PgCpyr = mean(REF_POC_burial_exp1(end-4:end,2))
+% mean POC burial of last 10 saved years (i.e. 20kyrs for a 200kyr run) (mol/yr):
+x_years = 10;
+Burial_POC_lastyears = REF_POC_burial_exp1(end-x_years:end,2);
+format long
+Mean_POC_burial_PgCpyr = mean(Burial_POC_lastyears)
 Mean_POC_burial_molpyr = Mean_POC_burial_PgCpyr/12.*1e+15
+% mean PO4 weathering of last 10 saved years (i.e. 20kyrs for a 200kyr run) (mol/yr):
+Weather_PO4_lastyears = REF_weather_PO4_exp1(end-x_years:end,2);
+Mean_PO4_weathering_molpyr = mean(Weather_PO4_lastyears)
 
 % calculate C-burial in CaCO3 & convert from mol/yr to PgC/yr  (i.e. *12/10^15): 
 REF_CaCO3_burial_exp1 = REF_focnsed_CaCO3_exp1;
@@ -66,19 +74,19 @@ if(true)
     hold on
     
     % atm temp.
-    subplot(3, 2, 1)
+    subplot(4, 2, 1)
     plot(REF_atm_tmp_exp1(:,1),REF_atm_tmp_exp1(:,2),'k--');
     ylabel({'Mean air'; 'temp (°C)'});
     ylim([0 20])
     
     % atm. CO2
-    subplot(3, 2, 2)
+    subplot(4, 2, 2)
     plot(REF_sed_pCO2_exp1(:,1),REF_sed_pCO2_exp1(:,3)*1e+6,'k--');
     ylabel({'pCO2'; '(ppm)'});
     ylim([0 2000])
     
     % global min overturning (Sv)
-    subplot(3, 2, 3)
+    subplot(4, 2, 3)
     plot(REF_misc_opsi_exp1(:,1),REF_misc_opsi_exp1(:,2),'k--');
     ylabel({'global min'; 'overturn (Sv)'});
     ylim([-60 -30])
@@ -90,13 +98,13 @@ if(true)
 %     ylim([30 60])
     
     % atm. O2
-    subplot(3, 2, 4)
+    subplot(4, 2, 4)
     plot(REF_sed_pO2_exp1(:,1),REF_sed_pO2_exp1(:,3),'k--');
     ylabel({'pO2'; '(atm)'});
     ylim([0.2 0.22])
     
     % PO4
-    subplot(3,2,5)
+    subplot(4,2,5)
     if(plot_mean) % mean (mol/kg)
         plot(REF_sed_PO4_exp1(:,1),REF_sed_PO4_exp1(:,3)*1e+6,'k--');
         ylabel({'PO_4'; '(\mumol kg^{-1})'});
@@ -110,11 +118,16 @@ if(true)
     set(hleg,'Location','SouthEast');
     
    	% d13C
-    subplot(3,2, 6)
+    subplot(4,2, 6)
     plot(REF_sed_DIC_13C_exp1(:,1),REF_sed_DIC_13C_exp1(:,3),'k--');
     ylabel({'global DIC 13C'; 'permil'});
    	ylim([-1.5 1.5])
 
+    
+    % PO4 weathering
+    subplot(4, 2, 7)
+    plot(REF_weather_PO4_exp1(:,1),REF_weather_PO4_exp1(:,2),'k--');
+    ylabel({'PO_4 weathering'; '(mol yr-1)'});
     
     if(plot_mean)  % mean (mol/kg)
         print(fig1, '-dpsc2', ['PLOTS/01_' PEXP_SPIN '_1BC.ps']);

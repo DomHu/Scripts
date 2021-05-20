@@ -62,6 +62,10 @@ REF_ocn_tmp_exp2 = load(fullfile(exp_1_OPEN,'/biogem/biogem_series_ocn_temp.res'
 REF_fexport_POC_exp1 = load(fullfile(exp_SPIN,'/biogem/biogem_series_fexport_POC.res'),'ascii');
 REF_fexport_POC_exp2 = load(fullfile(exp_1_OPEN,'/biogem/biogem_series_fexport_POC.res'),'ascii');
 
+% PO4 weathering flux
+REF_weather_PO4_exp1 = load(fullfile(exp_SPIN,'/biogem/biogem_series_diag_weather_PO4.res'),'ascii');
+REF_weather_PO4_exp2 = load(fullfile(exp_1_OPEN,'/biogem/biogem_series_diag_weather_PO4.res'),'ascii');
+
 
 % CaCO3 ocean - sediment
 REF_focnsed_CaCO3_exp1 = load(fullfile(exp_SPIN,'/biogem/biogem_series_focnsed_CaCO3.res'),'ascii');
@@ -112,7 +116,7 @@ if(true)
     hold on
     
     % atm temp.
-    subplot(3, 2, 1)
+    subplot(4, 2, 1)
     plot(REF_atm_tmp_exp1(:,1),REF_atm_tmp_exp1(:,2),'k', ...
         REF_atm_tmp_exp2(:,1)+years_SPIN,REF_atm_tmp_exp2(:,2),'r--');
     ylabel({'Mean air'; 'temp (°C)'});
@@ -120,7 +124,7 @@ if(true)
 %    ylim([10 20])
     
     % atm. CO2
-    subplot(3, 2, 2)
+    subplot(4, 2, 2)
     plot(REF_sed_pCO2_exp1(:,1),REF_sed_pCO2_exp1(:,3)*1e+6,'k', ...
         REF_sed_pCO2_exp2(:,1)+years_SPIN,REF_sed_pCO2_exp2(:,3)*1e+6,'r--');
     ylabel({'pCO2'; '(ppm)'});
@@ -129,7 +133,7 @@ if(true)
     
     
     % global min overturning (Sv)
-    subplot(3, 2, 3)
+    subplot(4, 2, 3)
     plot(REF_misc_opsi_exp1(:,1),REF_misc_opsi_exp1(:,2),'k', ...
         REF_misc_opsi_exp2(:,1)+years_SPIN,REF_misc_opsi_exp2(:,2),'r--');
     ylabel({'global min'; 'overturn (Sv)'});
@@ -138,7 +142,7 @@ if(true)
     
     
     % atm. O2
-    subplot(3, 2, 4)
+    subplot(4, 2, 4)
     plot(REF_sed_pO2_exp1(:,1),REF_sed_pO2_exp1(:,3),'k', ...
         REF_sed_pO2_exp2(:,1)+years_SPIN,REF_sed_pO2_exp2(:,3),'r--');
     ylabel({'pO2'; '(atm)'});
@@ -146,7 +150,7 @@ if(true)
 %    ylim([0.2 0.22])
     
     % PO4
-    subplot(3,2,5)
+    subplot(4,2,5)
     if(plot_mean) % mean (mol/kg)
         plot(REF_sed_PO4_exp1(:,1),REF_sed_PO4_exp1(:,3)*1e+6,'k', ...
             REF_sed_PO4_exp2(:,1)+years_SPIN,REF_sed_PO4_exp2(:,3)*1e+6,'r--');
@@ -163,12 +167,18 @@ if(true)
     set(hleg,'Location','SouthEast');
     
     % d13C
-    subplot(3,2, 6)
+    subplot(4,2, 6)
     plot(REF_sed_DIC_13C_exp1(:,1),REF_sed_DIC_13C_exp1(:,3),'k',  ...
         REF_sed_DIC_13C_exp2(:,1)+years_SPIN,REF_sed_DIC_13C_exp2(:,3),'r--');
     ylabel({'global DIC 13C'; 'permil'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
     
+    % PO4 weathering
+    subplot(4, 2, 7)
+    plot(REF_weather_PO4_exp1(:,1),REF_weather_PO4_exp1(:,2),'k', ...
+        REF_weather_PO4_exp2(:,1)+years_SPIN,REF_weather_PO4_exp2(:,2),'r--');
+    ylabel({'PO_4 weathering'; '(mol yr-1)'});
+    xlim([years_SPIN-years_SPIN_plot xaxis_lim])
     
     if(plot_mean)  % mean (mol/kg)
         print(fig1, '-dpsc2', ['PLOTS/01_' PNAME_OUT '_1BC.ps']);

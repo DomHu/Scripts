@@ -12,15 +12,15 @@ function [] = plot_time_series_subplots_1SPIN_5Exps(PFolderExps, PNAME_SPIN, PNA
 plot_mean = true;
 
 %  set SPIN experiment years
-years_SPIN = 150000;
-years_SPIN_plot = 10000;
+years_SPIN = 200000;
+years_SPIN_plot = 200000;
 
 % set experiment 
 % get file names in folder configs:
 a=dir([ PFolderExps '/*']);
 b={a.name};
 
-PEXP_SPIN = '0504_03_fkl_ep21_1C1P1O_allFeedb_forc_atm_Fdet18g_150k';
+PEXP_SPIN = '2304_01_fkl_ep21_1C1P1O_allFeedb_forc_atm_newCPweather_200k';
 PEXP1_OPEN = b{3};   % 1st and 2nd entry is . and ..
 PEXP2_OPEN = b{4};
 PEXP3_OPEN = b{5};
@@ -212,13 +212,21 @@ REF_CaCO3_burial_exp4(:,2) = (REF_focnsed_CaCO3_exp4(:,2)-REF_fsedocn_Ca_exp4(:,
 REF_CaCO3_burial_exp5(:,2) = (REF_focnsed_CaCO3_exp5(:,2)-REF_fsedocn_Ca_exp5(:,2)).*12.*1e-15;
 REF_CaCO3_burial_exp6(:,2) = (REF_focnsed_CaCO3_exp6(:,2)-REF_fsedocn_Ca_exp6(:,2)).*12.*1e-15;
 
+% PO4 weathering flux
+REF_weather_PO4_exp1 = load(fullfile(exp_SPIN,'/biogem/biogem_series_diag_weather_PO4.res'),'ascii');
+REF_weather_PO4_exp2 = load(fullfile(exp_1_OPEN,'/biogem/biogem_series_diag_weather_PO4.res'),'ascii');
+REF_weather_PO4_exp3 = load(fullfile(exp_2_OPEN,'/biogem/biogem_series_diag_weather_PO4.res'),'ascii');
+REF_weather_PO4_exp4 = load(fullfile(exp_3_OPEN,'/biogem/biogem_series_diag_weather_PO4.res'),'ascii');
+REF_weather_PO4_exp5 = load(fullfile(exp_4_OPEN,'/biogem/biogem_series_diag_weather_PO4.res'),'ascii');
+REF_weather_PO4_exp6 = load(fullfile(exp_5_OPEN,'/biogem/biogem_series_diag_weather_PO4.res'),'ascii');
+
 
 % calculate length up experiments
-time_exps = REF_misc_opsi_exp2(end,1);
+time_exps = max([REF_misc_opsi_exp2(end,1), REF_misc_opsi_exp3(end,1),  REF_misc_opsi_exp4(end,1), REF_misc_opsi_exp5(end,1), REF_misc_opsi_exp6(end,1)]);
 xaxis_lim = years_SPIN + time_exps;
 
 %% split in three figures:
-if(true)
+
 set(0,'defaultLineLineWidth', 2)
 set(0,'DefaultAxesFontSize',10)
 
@@ -237,7 +245,7 @@ plot(REF_atm_tmp_exp1(:,1),REF_atm_tmp_exp1(:,2),'k', ...
      REF_atm_tmp_exp6(:,1)+years_SPIN,REF_atm_tmp_exp6(:,2),'m:'); 
 ylabel({'Mean air'; 'temp (°C)'});
 xlim([years_SPIN-years_SPIN_plot xaxis_lim]) 
-% ylim([0 20]);
+% ylim([0 15]);
 
 % atm. CO2
 subplot(3, 2, 2)
@@ -249,10 +257,10 @@ plot(REF_sed_pCO2_exp1(:,1),REF_sed_pCO2_exp1(:,3)*1e+6,'k', ...
      REF_sed_pCO2_exp6(:,1)+years_SPIN,REF_sed_pCO2_exp6(:,3)*1e+6,'m:'); 
 ylabel({'pCO2'; '(ppm)'});
 xlim([years_SPIN-years_SPIN_plot xaxis_lim]) 
-% ylim([1000 1200])
+% ylim([100 500])
 
 
-% global min overturning (Sv)
+% global min overturning (Sv)4
 subplot(3, 2, 3)
 plot(REF_misc_opsi_exp1(:,1),REF_misc_opsi_exp1(:,2),'k', ...
     REF_misc_opsi_exp2(:,1)+years_SPIN,REF_misc_opsi_exp2(:,2),'k--',  ...
@@ -322,6 +330,7 @@ plot(REF_sed_DIC_13C_exp1(:,1),REF_sed_DIC_13C_exp1(:,3),'k',  ...
 %xlabel('years ');
 ylabel({'global DIC 13C'; 'permil'});
 xlim([years_SPIN-years_SPIN_plot xaxis_lim]) 
+
 
 
 if(plot_mean)  % mean (mol/kg)
@@ -556,7 +565,31 @@ else
     print(fig3, '-depsc', ['PLOTS/' FILENAME '_3Biochem_Total']);
 end
 
+
+
+%%
+fig4=figure;
+grid on
+hold on
+
+% PO4 weathering
+subplot(3, 2, 1)
+plot(REF_weather_PO4_exp1(:,1),REF_weather_PO4_exp1(:,2),'k', ...
+    REF_weather_PO4_exp2(:,1)+years_SPIN,REF_weather_PO4_exp2(:,2),'k--',  ...
+    REF_weather_PO4_exp3(:,1)+years_SPIN,REF_weather_PO4_exp3(:,2),'r--',  ...
+    REF_weather_PO4_exp4(:,1)+years_SPIN,REF_weather_PO4_exp4(:,2),'g--',  ...
+    REF_weather_PO4_exp5(:,1)+years_SPIN,REF_weather_PO4_exp5(:,2),'b:',  ...
+    REF_weather_PO4_exp6(:,1)+years_SPIN,REF_weather_PO4_exp6(:,2),'m:');
+ylabel({'PO_4 weathering'; '(mol yr-1)'});
+xlim([years_SPIN-years_SPIN_plot xaxis_lim])
+
+
+if(plot_mean)  % mean (mol/kg)
+    print(fig4,'-depsc', ['PLOTS/' FILENAME '_4Weathering']);
+else
+    print(fig4, '-depsc', ['PLOTS/' FILENAME '_4Weathering_Total']);
 end
+
 
 
 

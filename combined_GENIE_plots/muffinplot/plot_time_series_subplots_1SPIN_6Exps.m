@@ -12,7 +12,7 @@ function [] = plot_time_series_subplots_1SPIN_6Exps(PFolderExps, PNAME_SPIN, PNA
 plot_mean = true;
 
 %  set SPIN experiment years
-years_SPIN = 150000;
+years_SPIN = 200000;
 years_SPIN_plot = 10000;
 
 % set experiment 
@@ -20,16 +20,18 @@ years_SPIN_plot = 10000;
 a=dir([ PFolderExps '/*']);
 b={a.name};
 
-PEXP_SPIN = b{3};   % 1st and 2nd entry is . and ..
-PEXP1_OPEN = b{4};
-PEXP2_OPEN = b{5};
-PEXP3_OPEN = b{6};
-PEXP4_OPEN = b{7};
-PEXP5_OPEN = b{8};
-PEXP6_OPEN = b{9};
+%PEXP_SPIN = b{3};   % 1st and 2nd entry is . and ..
+PEXP_SPIN = '2904_01_fkl_ep21_1C1P1O_allFeedb_forc_atm_fixCorgweather';
+PEXP1_OPEN = b{3};
+PEXP2_OPEN = b{4};
+PEXP3_OPEN = b{5};
+PEXP4_OPEN = b{6};
+PEXP5_OPEN = b{7};
+PEXP6_OPEN = b{8};
 
 % use 
-exp_SPIN = ['./' PFolderExps '/' PEXP_SPIN];   
+% exp_SPIN = ['./' PFolderExps '/' PEXP_SPIN];   
+exp_SPIN = ['./cgenie_output/' PEXP_SPIN];   
 exp_1_OPEN = ['./' PFolderExps '/' PEXP1_OPEN];   
 exp_2_OPEN = ['./' PFolderExps '/' PEXP2_OPEN];
 exp_3_OPEN = ['./' PFolderExps '/' PEXP3_OPEN];
@@ -325,7 +327,7 @@ text(0.03,0.15,txt,'FontSize',12,'Units','normalized')
 subplot(3,2,5)
 if(plot_mean) % mean (mol/kg)
     plot(REF_sed_PO4_exp1(:,1),REF_sed_PO4_exp1(:,3)*1e+6,'k', ...
-         REF_sed_PO4_exp2(:,1)+years_SPIN,REF_sed_PO4_exp2(:,3)*1e+6,'k',  ...
+         REF_sed_PO4_exp2(:,1)+years_SPIN,REF_sed_PO4_exp2(:,3)*1e+6,'k--',  ...
          REF_sed_PO4_exp3(:,1)+years_SPIN,REF_sed_PO4_exp3(:,3)*1e+6,'r--', ...
          REF_sed_PO4_exp4(:,1)+years_SPIN,REF_sed_PO4_exp4(:,3)*1e+6,'g--',  ...
          REF_sed_PO4_exp5(:,1)+years_SPIN,REF_sed_PO4_exp5(:,3)*1e+6,'b:' ,  ...
