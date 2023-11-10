@@ -6,8 +6,8 @@ function [] = plot_time_series_subplots_1SPIN_1Exp(PEXP_SPIN, PEXP1_OPEN, PNAME_
 
 %clear all;
 % set SPIN experiment years
-years_SPIN = 150000;
-years_SPIN_plot = 150000;
+years_SPIN = 300000;
+years_SPIN_plot = 300000;
 
 % plot mean (true) or total (false)
 plot_mean = true;

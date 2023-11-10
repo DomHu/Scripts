@@ -12,7 +12,7 @@ function [] = plot_time_series_subplots_1SPIN_6Exps(PFolderExps, PNAME_SPIN, PNA
 plot_mean = true;
 
 %  set SPIN experiment years
-years_SPIN = 200000;
+years_SPIN = 300000;
 years_SPIN_plot = 10000;
 
 % set experiment 
@@ -20,14 +20,53 @@ years_SPIN_plot = 10000;
 a=dir([ PFolderExps '/*']);
 b={a.name};
 
+if(false)
+%% HIGHER BURIAL
 %PEXP_SPIN = b{3};   % 1st and 2nd entry is . and ..
 PEXP_SPIN = '2904_01_fkl_ep21_1C1P1O_allFeedb_forc_atm_fixCorgweather';
-PEXP1_OPEN = b{3};
-PEXP2_OPEN = b{4};
-PEXP3_OPEN = b{5};
-PEXP4_OPEN = b{6};
-PEXP5_OPEN = b{7};
-PEXP6_OPEN = b{8};
+% 0907 all Emission experiments with Tmp-dep Corg weathering + CTRL with all feedbacks in folder "output_0907"
+PEXP1_OPEN = b{4};
+PEXP2_OPEN = b{14};
+PEXP3_OPEN = b{15};
+PEXP4_OPEN = b{16};
+PEXP5_OPEN = b{17};
+PEXP6_OPEN = b{18};
+end
+
+%% LOWER BURIAL
+%PEXP_SPIN = b{3};   % 1st and 2nd entry is . and ..
+PEXP_SPIN = '2907_02_ALL_FB_restart';
+% 0907 all Emission experiments with Tmp-dep Corg weathering + CTRL with all feedbacks in folder "output_0907"
+ PEXP1_OPEN = b{3};
+
+ % PEXP2_OPEN = b{8};
+% PEXP3_OPEN = b{9};
+% PEXP4_OPEN = b{10};
+% PEXP5_OPEN = b{11};
+% PEXP6_OPEN = b{12};
+
+PEXP2_OPEN = b{13};
+PEXP3_OPEN = b{14};
+PEXP4_OPEN = b{15};
+PEXP5_OPEN = b{16};
+PEXP6_OPEN = b{17};
+
+% 0907 all Emission experiments with fixed Corg weathering + CTRL with all feedbacks in folder "output_0907"
+% PEXP1_OPEN = b{4};
+% PEXP2_OPEN = b{9};
+% PEXP3_OPEN = b{10};
+% PEXP4_OPEN = b{11};
+% PEXP5_OPEN = b{12};
+% PEXP6_OPEN = b{13};
+
+
+% % 0107 + 1805 all Emission experiments + CTRL with all feedbacks in folder "output_FINAL_1805_0107"
+% PEXP1_OPEN = b{4};
+% PEXP2_OPEN = b{5};
+% PEXP3_OPEN = b{7};
+% PEXP4_OPEN = b{9};
+% PEXP5_OPEN = b{11};
+% PEXP6_OPEN = b{3};
 
 % use 
 % exp_SPIN = ['./' PFolderExps '/' PEXP_SPIN];   

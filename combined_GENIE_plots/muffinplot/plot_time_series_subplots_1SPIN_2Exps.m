@@ -6,7 +6,7 @@ function [] = plot_time_series_subplots_1SPIN_2Exps(PEXP_SPIN, PEXP1_OPEN, PEXP2
 plot_mean = true;
 
 % set SPIN experiment years
-years_SPIN = 150000;
+years_SPIN = 200000;
 years_SPIN_plot = 100000;
 
 

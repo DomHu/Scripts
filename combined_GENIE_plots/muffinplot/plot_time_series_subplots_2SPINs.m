@@ -7,10 +7,12 @@ function [] = plot_time_series_subplots_2SPINs(PEXP_SPIN, PEXP1_OPEN, PNAME_SPIN
 
 % plot mean (true) or total (false)
 plot_mean = true;
+set_ylim = true;
 
 % set SPIN experiment years
 years_SPIN = 0;
 years_SPIN_plot = 0;
+
 % set experiment
 
 exp_SPIN = ['./cgenie_output/' PEXP_SPIN];
@@ -116,7 +118,7 @@ if(true)
     hold on
     
     % atm temp.
-    subplot(4, 2, 1)
+    subplot(3, 2, 1)
     plot(REF_atm_tmp_exp1(:,1),REF_atm_tmp_exp1(:,2),'k', ...
         REF_atm_tmp_exp2(:,1)+years_SPIN,REF_atm_tmp_exp2(:,2),'r--');
     ylabel({'Mean air'; 'temp (°C)'});
@@ -124,7 +126,7 @@ if(true)
 %    ylim([10 20])
     
     % atm. CO2
-    subplot(4, 2, 2)
+    subplot(3, 2, 2)
     plot(REF_sed_pCO2_exp1(:,1),REF_sed_pCO2_exp1(:,3)*1e+6,'k', ...
         REF_sed_pCO2_exp2(:,1)+years_SPIN,REF_sed_pCO2_exp2(:,3)*1e+6,'r--');
     ylabel({'pCO2'; '(ppm)'});
@@ -133,7 +135,7 @@ if(true)
     
     
     % global min overturning (Sv)
-    subplot(4, 2, 3)
+    subplot(3, 2, 3)
     plot(REF_misc_opsi_exp1(:,1),REF_misc_opsi_exp1(:,2),'k', ...
         REF_misc_opsi_exp2(:,1)+years_SPIN,REF_misc_opsi_exp2(:,2),'r--');
     ylabel({'global min'; 'overturn (Sv)'});
@@ -142,15 +144,17 @@ if(true)
     
     
     % atm. O2
-    subplot(4, 2, 4)
+    subplot(3, 2, 4)
     plot(REF_sed_pO2_exp1(:,1),REF_sed_pO2_exp1(:,3),'k', ...
         REF_sed_pO2_exp2(:,1)+years_SPIN,REF_sed_pO2_exp2(:,3),'r--');
     ylabel({'pO2'; '(atm)'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
+    hleg=legend(PNAME_SPIN, ...
+        PNAME_OPEN1);
 %    ylim([0.2 0.22])
     
     % PO4
-    subplot(4,2,5)
+    subplot(3,2,5)
     if(plot_mean) % mean (mol/kg)
         plot(REF_sed_PO4_exp1(:,1),REF_sed_PO4_exp1(:,3)*1e+6,'k', ...
             REF_sed_PO4_exp2(:,1)+years_SPIN,REF_sed_PO4_exp2(:,3)*1e+6,'r--');
@@ -161,31 +165,23 @@ if(true)
         ylabel('PO_4 (mol)');
     end
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
-    hleg=legend(PNAME_SPIN, ...
-        PNAME_OPEN1);
+%     hleg=legend(PNAME_SPIN, ...
+%         PNAME_OPEN1);
     set(hleg,'FontSize',8);
     set(hleg,'Location','SouthEast');
     
     % d13C
-    subplot(4,2, 6)
+    subplot(3,2, 6)
     plot(REF_sed_DIC_13C_exp1(:,1),REF_sed_DIC_13C_exp1(:,3),'k',  ...
         REF_sed_DIC_13C_exp2(:,1)+years_SPIN,REF_sed_DIC_13C_exp2(:,3),'r--');
     ylabel({'global DIC 13C'; 'permil'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
-    
-    % PO4 weathering
-    subplot(4, 2, 7)
-    plot(REF_weather_PO4_exp1(:,1),REF_weather_PO4_exp1(:,2),'k', ...
-        REF_weather_PO4_exp2(:,1)+years_SPIN,REF_weather_PO4_exp2(:,2),'r--');
-    ylabel({'PO_4 weathering'; '(mol yr-1)'});
-    xlim([years_SPIN-years_SPIN_plot xaxis_lim])
-    
-    if(plot_mean)  % mean (mol/kg)
-        print(fig1, '-dpsc2', ['PLOTS/01_' PNAME_OUT '_1BC.ps']);
+
+   	if(plot_mean)  % mean (mol/kg)
+        print(fig1, '-depsc', ['PLOTS/' PNAME_OUT '_1BC.eps']);
     else
-        print(fig1,'-dpsc2', ['PLOTS/01_' PNAME_OUT '_Total_1BC.ps']);
+        print(fig1,'-depsc', ['PLOTS/' PNAME_OUT '_Total_1BC.eps']);
     end
-    
     
     %%
     fig2=figure;
@@ -200,7 +196,9 @@ if(true)
         REF_fexport_POC_exp2(:,1)+years_SPIN,REF_fexport_POC_exp2(:,2)*12*1e-15,'r--');
     ylabel({'global POC'; 'export (PgC yr-1)'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
-    
+    if(set_ylim)
+    ylim([0 10]);
+    end
     % POC depositional flux
     subplot(3, 2, 3)
     plot(REF_focnsed_POC_exp1(:,1),REF_focnsed_POC_exp1(:,2)*12*1e-15,'k', ...
@@ -208,6 +206,9 @@ if(true)
 %    ylim([0 8])
     ylabel({'POC deposition'; '(PgC yr^{-1})'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
+    if(set_ylim)
+    ylim([0 1.6]);
+    end
     
     % POC burial
     subplot(3,2, 5)
@@ -216,7 +217,9 @@ if(true)
 %    ylim([0 1])
     ylabel({'OM burial'; '(PgC yr^{-1})'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
-    
+    if(set_ylim)
+    ylim([0 0.5]);
+    end    
 %%%%%%%%%%%  CaCO3
 
     % mean CaCO3 wt%
@@ -233,7 +236,9 @@ if(true)
 %    ylim([0 8])
     ylabel({'CaCO3 deposition'; '(PgC yr^{-1})'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
-    
+    if(set_ylim)
+    ylim([0 1.2]);
+    end    
     % C-burial in CaCO3
     subplot(3,2, 6)
     plot(REF_CaCO3_burial_exp1(:,1),REF_CaCO3_burial_exp1(:,2),'k', ...
@@ -241,11 +246,13 @@ if(true)
 %    ylim([0 1])
     ylabel({'CaCO3 burial'; '(PgC yr^{-1})'});
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
-    
+    if(set_ylim)
+    ylim([0 0.4]);
+    end    
     if(plot_mean)  % mean (mol/kg)
-        print(fig2, '-dpsc2', ['PLOTS/02_' PNAME_OUT '_2Ccycle.ps']);
+        print(fig2, '-depsc', ['PLOTS/' PNAME_OUT '_2Ccycle.eps']);
     else
-        print(fig2,'-dpsc2', ['PLOTS/02_' PNAME_OUT '_Total_2Ccyle.ps']);
+        print(fig2,'-depsc', ['PLOTS/' PNAME_OUT '_Total_2Ccyle.eps']);
     end
     
     
@@ -311,6 +318,9 @@ if(true)
     end
     xlabel('Time');
     xlim([years_SPIN-years_SPIN_plot xaxis_lim])
+    if(set_ylim)
+    ylim([1800 2000]);
+    end     
     
     subplot(3,2,6)
     if(plot_mean)  % mean (mol/kg)
@@ -327,11 +337,30 @@ if(true)
     
     
     if(plot_mean)  % mean (mol/kg)
-        print(fig3, '-dpsc2', ['PLOTS/03_' PNAME_OUT '_3Biochem.ps']);
+        print(fig3, '-depsc', ['PLOTS/' PNAME_OUT '_3Biochem.eps']);
     else
-        print(fig3, '-dpsc2', ['PLOTS/03_' PNAME_OUT '_Total_3Biochem.ps']);
+        print(fig3, '-depsc', ['PLOTS/' PNAME_OUT '_Total_3Biochem.eps']);
     end
     
+    
+    %%
+fig4=figure;
+grid on
+hold on
+
+% PO4 weathering
+   subplot(3, 2, 1)
+    plot(REF_weather_PO4_exp1(:,1),REF_weather_PO4_exp1(:,2),'k', ...
+        REF_weather_PO4_exp2(:,1)+years_SPIN,REF_weather_PO4_exp2(:,2),'r--');
+    ylabel({'PO_4 weathering'; '(mol yr-1)'});
+    xlim([years_SPIN-years_SPIN_plot xaxis_lim])
+    
+    if(plot_mean)  % mean (mol/kg)
+        print(fig4, '-depsc', ['PLOTS/' PNAME_OUT '_4weather.eps']);
+    else
+        print(fig4,'-depsc', ['PLOTS/' PNAME_OUT '_Total_4weather.eps']);
+    end
+     
 end
 
 

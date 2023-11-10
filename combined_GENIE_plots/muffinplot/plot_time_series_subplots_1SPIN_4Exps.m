@@ -8,10 +8,10 @@ function [] = plot_time_series_subplots_1SPIN_4Exps(PFolderExps, PNAME_SPIN, PNA
 plot_mean = true;
 
 % set SPIN experiment years
-years_SPIN = 150000;
-years_SPIN_plot = 10000;
+years_SPIN = 200000;
+years_SPIN_plot = 50000;
 
-shift_time_axis = 150000;
+shift_time_axis = 200000;
 
 
 % set experiment 
@@ -20,15 +20,20 @@ shift_time_axis = 150000;
 a=dir([ PFolderExps '/*']);
 b={a.name};
 
-PEXP_SPIN = b{3}; %'0504_03_fkl_ep21_1C1P1O_allFeedb_forc_atm_Fdet18g_150k';
-PEXP1_OPEN = b{7};   % 1st and 2nd entry is . and ..
-PEXP2_OPEN = b{6};
+% PEXP_SPIN = b{3}; %'0504_03_fkl_ep21_1C1P1O_allFeedb_forc_atm_Fdet18g_150k';
+PEXP_SPIN = '2904_01_fkl_ep21_1C1P1O_allFeedb_forc_atm_fixCorgweather';
+PEXP1_OPEN = b{3};   % 1st and 2nd entry is . and ..
+PEXP2_OPEN = b{4};
 PEXP3_OPEN = b{5};
-PEXP4_OPEN = b{4};
-
+PEXP4_OPEN = b{6};
+% all CTRLs
+% PEXP1_OPEN = b{3};   % 1st and 2nd entry is . and ..
+% PEXP2_OPEN = b{7};
+% PEXP3_OPEN = b{9};
+% PEXP4_OPEN = b{13};
 % use 
-%exp_SPIN = ['./cgenie_output/' PEXP_SPIN];   
-exp_SPIN = ['./' PFolderExps '/' PEXP_SPIN];   
+exp_SPIN = ['./cgenie_output/' PEXP_SPIN];   
+%exp_SPIN = ['./' PFolderExps '/' PEXP_SPIN];   
 exp_1_OPEN = ['./' PFolderExps '/' PEXP1_OPEN];   
 exp_2_OPEN = ['./' PFolderExps '/' PEXP2_OPEN];
 exp_3_OPEN = ['./' PFolderExps '/' PEXP3_OPEN];
@@ -250,7 +255,13 @@ plot(REF_sed_pO2_exp1(:,1)-shift_time_axis,REF_sed_pO2_exp1(:,3),'k', ...
 ylabel({'pO2'; '(atm)'});
     xlim([years_SPIN-years_SPIN_plot-shift_time_axis xaxis_lim]) 
 % ylim([0.2 0.22])
-
+hleg=legend(PNAME_SPIN, ...
+    PNAME_OPEN1, ...
+    PNAME_OPEN2, ...
+    PNAME_OPEN3, ...
+    PNAME_OPEN4); 
+set(hleg,'FontSize',8);
+set(hleg,'Location','SouthWest');
 
 % PO4
 subplot(3,2,5)
@@ -272,13 +283,7 @@ else % total (mol)
 end
 % set(gca,'xticklabel',{[]})
     xlim([years_SPIN-years_SPIN_plot-shift_time_axis xaxis_lim]) 
-hleg=legend(PNAME_SPIN, ...
-    PNAME_OPEN1, ...
-    PNAME_OPEN2, ...
-    PNAME_OPEN3, ...
-    PNAME_OPEN4); 
-set(hleg,'FontSize',8);
-set(hleg,'Location','SouthWest');
+
 
 subplot(3,2, 6)
 plot(REF_sed_DIC_13C_exp1(:,1)-shift_time_axis,REF_sed_DIC_13C_exp1(:,3),'k',  ...
@@ -292,7 +297,7 @@ ylabel({'global DIC 13C'; 'permil'});
 
 
 if(plot_mean)  % mean (mol/kg)
-    print(fig1, '-depsc', ['PLOTS/' FILENAME '_1BC_wSPIN']);
+    print(fig1, '-depsc', ['PLOTS/' FILENAME '_1BC']);
 else
     print(fig1, '-depsc', ['PLOTS/' FILENAME '_1BC_total']);
 end
@@ -357,7 +362,7 @@ plot(REF_POC_burial_exp1(:,1)-shift_time_axis,REF_POC_burial_exp1(:,2),'k', ...
     REF_POC_burial_exp5(:,1)-shift_time_axis+years_SPIN,REF_POC_burial_exp5(:,2),'g-.');
 ylabel({'OM burial'; '(PgC yr^{-1})'});
     xlim([years_SPIN-years_SPIN_plot-shift_time_axis xaxis_lim]) 
-% ylim([0.0 2.5])
+%ylim([0.325 0.34])
 
 
 % C burial in CaCO3

@@ -50,7 +50,7 @@ REF_POC_burial_exp1 = REF_focnsed_POC_exp1;
 REF_POC_burial_exp1(:,2) = (REF_focnsed_POC_exp1(:,2) - (REF_fsedocn_DIC_exp1(:,2)-REF_fsedocn_Ca_exp1(:,2))).*12.*1e-15;
 
 % mean POC burial of last 10 saved years (i.e. 20kyrs for a 200kyr run) (mol/yr):
-x_years = 10;
+x_years = 10;   % 10 for 200 kry exp; 4 for 300 kyr exp to get mean of last 20kyrs
 Burial_POC_lastyears = REF_POC_burial_exp1(end-x_years:end,2);
 format long
 Mean_POC_burial_PgCpyr = mean(Burial_POC_lastyears)
