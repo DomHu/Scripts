@@ -1436,11 +1436,12 @@ if (plot_main == 'y'),
     colormap(cmap);
     % date-stamp plot
     set(gcf,'CurrentAxes',fh(1));
-    if (plot_format_old == 'y')
-        text(0.95,0.50,[str_function, ' / ', 'on: ', str_date],'FontName','Arial','FontSize',8,'Rotation',90.0,'HorizontalAlignment','center','VerticalAlignment','top');
-    else
-        text(0.85,0.50,[str_function, ' / ', 'on: ', str_date],'FontName','Arial','FontSize',8,'Rotation',90.0,'HorizontalAlignment','center','VerticalAlignment','top');
-    end
+    text(0.92,0.50,plot_units,'FontName','Arial','FontSize',12,'Rotation',90.0,'HorizontalAlignment','center','VerticalAlignment','top');
+%     if (plot_format_old == 'y')
+%         text(0.95,0.50,[str_function, ' / ', 'on: ', str_date],'FontName','Arial','FontSize',8,'Rotation',90.0,'HorizontalAlignment','center','VerticalAlignment','top');
+%     else
+%         text(0.85,0.50,[str_function, ' / ', 'on: ', str_date],'FontName','Arial','FontSize',8,'Rotation',90.0,'HorizontalAlignment','center','VerticalAlignment','top');
+%     end
     %
     % *** SET PLOT SCALE ************************************************ %
     %
@@ -1815,7 +1816,8 @@ if (plot_main == 'y'),
     set(gcf,'CurrentAxes',fh(1));
     if (plot_format_old == 'y')
         if (par_mutlab > 2015),
-            print('-dpsc2', '-bestfit', [par_pathout '/' filename '.' str_date '.ps']);
+%            print('-dpsc2', '-bestfit', [par_pathout '/' filename '.' str_date '.ps']);
+            print('-dpdf', '-bestfit', [par_pathout '/' filename '.' str_date '.pdf']);
         else
             print('-dpsc2', [par_pathout '/' filename '.' str_date '.ps']);
         end

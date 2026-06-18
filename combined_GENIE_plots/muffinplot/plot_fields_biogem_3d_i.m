@@ -1996,7 +1996,8 @@ if (plot_main == 'y'),
     set(gcf,'CurrentAxes',fh(1));
     if (plot_format_old == 'y')
         if (par_mutlab > 2015)
-            print('-dpsc2', '-bestfit', [par_pathout '/' filename '.' str_date '.ps']);
+%            print('-dpsc2', '-bestfit', [par_pathout '/' filename '.' str_date '.ps']);
+            print('-dpdf', '-bestfit', [par_pathout '/' filename '.' str_date '.pdf']);
         else
             print('-dpsc2', [par_pathout '/' filename '.' str_date '.ps']);
         end
