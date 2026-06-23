@@ -286,6 +286,9 @@ tmp_mutlab = version('-release');
 str_mutlab = tmp_mutlab(1:4);
 par_mutlab = str2num(str_mutlab);
 %
+BWanox = 0.0;  
+anoxthr = 5e-6; % anoxia default : 5e-6
+
 % *** backwards compatability ******************************************* %
 % 
 % data point scaling
@@ -624,6 +627,18 @@ end
 if ~isempty(plot_dataid_alt1)
     data_1 = load([plot_dataid_alt1],'-ascii');
     data_1 = flipud(data_1);
+end
+
+% calculate anoxia percentage
+if strcmp('ocn_ben_O2',dataid_1)
+    clear anoxid
+    data_1(data_1<=-0.9E19 | data_1>= 0.9E36)=NaN;
+    data_1(data_1<0)=0;
+    %data_1(data_1<0 | data_1>= 0.9E36)=NaN;
+    oceanid = find(data_1>=0);
+    anoxid = find(data_1<=anoxthr & data_1>=0);
+
+    BWanox = size(anoxid,1)/size(oceanid,1)*100; % SX: added
 end
 %
 % *********************************************************************** %
@@ -1417,7 +1432,7 @@ if (plot_main == 'y'),
     % create figure
     % NOTE: explicitly specify renderer is using useless recent version
     scrsz = get(0,'ScreenSize');
-    hfig = figure('Position',[((1 - plot_dscrsz)/2)*plot_dscrsz*scrsz(3) (1 - plot_dscrsz)*plot_dscrsz*scrsz(4) plot_dscrsz*scrsz(3) plot_dscrsz*scrsz(4)]);
+    hfig = figure('Position',[((1 - plot_dscrsz)/2)*plot_dscrsz*scrsz(3) (1 - plot_dscrsz)*plot_dscrsz*scrsz(4) plot_dscrsz*scrsz(3) plot_dscrsz*scrsz(4)] ,'visible','off');
     if (par_mutlab > 2015), hfig.Renderer='Painters'; end    
     clf;
     % define plotting regions
@@ -1427,16 +1442,18 @@ if (plot_main == 'y'),
         fh(3) = axes('Position',[0.80 0.27 0.20 0.46],'Visible','off');
     else
         fh(1) = axes('Position',[0 0 1 1],'Visible','off');
-        fh(2) = axes('Position',[0.15 0.15 0.65 0.70]);
-        fh(3) = axes('Position',[0.75 0.15 0.15 0.70],'Visible','off');
+        fh(2) = axes('Position',[0.10 0.05 0.65 0.90]);
+        fh(3) = axes('Position',[0.77 0.27 0.20 0.46],'Visible','off');
     end
     % define colormap
     cmap = make_cmap(colorbar_name,con_n+2);
     if (colorbar_inv == 'y'), cmap = flipdim(cmap,1); end,
     colormap(cmap);
     % date-stamp plot
-    set(gcf,'CurrentAxes',fh(1));
-    text(0.92,0.50,plot_units,'FontName','Arial','FontSize',12,'Rotation',90.0,'HorizontalAlignment','center','VerticalAlignment','top');
+    if false % no units here
+        set(gcf,'CurrentAxes',fh(1));
+        text(0.92,0.50,plot_units,'FontName','Arial','FontSize',12,'Rotation',90.0,'HorizontalAlignment','center','VerticalAlignment','top');
+    end
 %     if (plot_format_old == 'y')
 %         text(0.95,0.50,[str_function, ' / ', 'on: ', str_date],'FontName','Arial','FontSize',8,'Rotation',90.0,'HorizontalAlignment','center','VerticalAlignment','top');
 %     else
@@ -1496,6 +1513,7 @@ if (plot_main == 'y'),
         end
     end
     set(gca,'TickDir','out');
+    if true % dh: no title
     if ~isempty(plot_title)
         title(plot_title,'FontSize',18);
     else
@@ -1504,6 +1522,7 @@ if (plot_main == 'y'),
         else
             title(['Year: ',strrep(num2str(time),'_',' '),' / ','Data ID: ',strrep(dataid_1,'_',' ')],'FontSize',12);
         end
+    end
     end
     % draw filled rectangles
     for i = 1:imax,
@@ -1764,8 +1783,18 @@ if (plot_main == 'y'),
     %
     hold off;
     %
+  	% DH add text
+    if strcmp('ocn_ben_O2',dataid_1)
+       text(0.82,0.98,...
+        ['f_{anox} = ' num2str(BWanox,'%.1f') ' %'],...
+        'Units','normalized',...
+        'FontSize',14,...
+        'VerticalAlignment','top',...
+        'HorizontalAlignment','right');
+    end
     % *** CREATE COLOR BAR ********************************************** %
     %
+    if true    % dh: no colorbar
     if (~((data_only == 'y') && (data_siteonly == 'y')))
         %
         set(gcf,'CurrentAxes',fh(3));
@@ -1810,6 +1839,8 @@ if (plot_main == 'y'),
         hold off;
         %
     end
+    end
+
     %
     % *** PRINT PLOT **************************************************** %
     %
@@ -1824,7 +1855,10 @@ if (plot_main == 'y'),
     else
         switch plot_format
             case 'png'
-                export_fig([par_pathout '/' filename '.' str_date '.png'], '-png', '-r150', '-nocrop');
+%                 export_fig([par_pathout '/' filename '.' str_date '.png'], '-png', '-r150', '-nocrop');
+                set(gcf,'PaperPositionMode','auto')
+                print(gcf,'-dpng','-r300', ...
+                      sprintf([par_pathout '/' filename '.' str_date '.png']))            
             case 'pngT'
                 export_fig([par_pathout '/' filename '.' str_date '.png'], '-png', '-r150', '-nocrop', '-transparent');
             case 'jpg'

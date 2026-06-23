@@ -1992,11 +1992,12 @@ if (plot_main == 'y')
         end
     end
     set(gca,'TickDir','out');
-    if ~isempty(plot_title)
-        title(plot_title,'FontSize',18);
-    else
-        title(['Data: ',strrep(dataid_1,'_',' '),' / Level (k) = ', num2str(kplot)],'FontSize',12);
-    end
+% dh: no title    
+%     if ~isempty(plot_title)
+%         title(plot_title,'FontSize',18);
+%     else
+%         title(['Data: ',strrep(dataid_1,'_',' '),' / Level (k) = ', num2str(kplot)],'FontSize',12);
+%     end
     % draw filled rectangles
     for i = 1:imax,
         for j = 1:jmax,
@@ -2229,6 +2230,7 @@ if (plot_main == 'y')
     %
     % *** CREATE COLOR BAR ********************************************** %
     %
+    if false % dh no colobar
     if (~((data_only == 'y') && (data_siteonly == 'y')))
         %
         set(gcf,'CurrentAxes',fh(3));
@@ -2272,6 +2274,7 @@ if (plot_main == 'y')
         %
         hold off;
         %
+    end
     end
     %
     % *** PRINT PLOT **************************************************** %
