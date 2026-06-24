@@ -1792,6 +1792,19 @@ if (plot_main == 'y'),
         'VerticalAlignment','top',...
         'HorizontalAlignment','right');
     end
+    
+    if timesliceid_1 < 1000
+        str_time = sprintf('%.1f',timesliceid_1/1000);
+    else
+        str_time = sprintf('%.0f',timesliceid_1/1000);
+    end
+    
+    text(0.28,0.98,...
+        ['time = ' str_time ' ky'],...
+        'Units','normalized',...
+        'FontSize',14,...
+        'VerticalAlignment','top',...
+        'HorizontalAlignment','left');
     % *** CREATE COLOR BAR ********************************************** %
     %
     if true    % dh: no colorbar
