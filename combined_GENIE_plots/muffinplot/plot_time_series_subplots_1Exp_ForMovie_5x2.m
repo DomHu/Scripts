@@ -287,7 +287,7 @@ end
     set(0,'DefaultAxesFontSize',10)
     
     %%
-    fig1=figure('Position',[100 100 1400 1400])
+    fig1=figure('Position',[100 100 1400 1400]);
     
     % Emission rate
     subplot(5, 2, 1)
