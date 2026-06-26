@@ -533,6 +533,7 @@ box on
 
 yyaxis left
 
+
 for iexp = expIdx
     
     x = (Data.(varLeft){iexp}(1:end,1)+years_SPIN)/1000;
@@ -551,6 +552,31 @@ for iexp = expIdx
         'MarkerIndices',unique(markerIdx),...
         'MarkerSize',4);
     
+end
+
+% --- Total emissions up to current frame ---
+if strcmp(varLeft,'emissionRate') && exist('idx_frameTimes','var') && ~isempty(idx_frameTimes)
+    if  idx_frameTimes > 1
+        tEmi = Data.emissionRate{expIdx(1)}(:,1);  % time in yr
+        rEmi = Data.emissionRate{expIdx(1)}(:,2);  % emission rate in PgC yr^-1
+
+        totalEmission = trapz(tEmi(1:idx_frameTimes),rEmi(1:idx_frameTimes));  % PgC
+    else
+        totalEmission = 0;
+    end
+% Round to nearest 250 PgC
+totalEmission = 250 * round(totalEmission/250);
+
+formatter = java.text.DecimalFormat('#,##0');
+emiStr = char(formatter.format(totalEmission));
+
+text(0.98,0.90,...
+    ['Total = ' sprintf('%8s',emiStr) ' PgC'],...
+    'Units','normalized',...
+    'FontSize',12,...
+    'Color',expColors(expIdx(1),:), ...
+        'HorizontalAlignment','right');
+
 end
 
 % Add a small padding
